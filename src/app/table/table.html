@@ -1,0 +1,61 @@
+<p-table [value]="products" dataKey="name">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem"></th>
+      <th pSortableColumn="name">
+        Name <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th>Code</th>
+      <th pSortableColumn="price">
+        Price <p-sortIcon field="price"></p-sortIcon>
+      </th>
+      <th pSortableColumn="category">
+        Category <p-sortIcon field="category"></p-sortIcon>
+      </th>
+      <th pSortableColumn="rating">
+        Reviews <p-sortIcon field="rating"></p-sortIcon>
+      </th>
+      <th pSortableColumn="inventoryStatus">
+        Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product let-expanded="expanded">
+    <tr>
+      <td>
+        <button
+          type="button"
+          pButton
+          pRipple
+          [pRowToggler]="product"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
+      </td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.code }}</td>
+      <td>{{ product.price | currency: 'USD' }}</td>
+      <td>{{ product.category }}</td>
+      <td>
+        <p-rating
+          [ngModel]="product.rating"
+          [readonly]="true"
+          [cancel]="false"
+        ></p-rating>
+      </td>
+      <td>
+        <span
+          [class]="
+            'product-badge status-' + product.inventoryStatus.toLowerCase()
+          "
+          >{{ product.inventoryStatus }}</span
+        >
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-product>
+    <ng-container
+      *ngTemplateOutlet="rowexpand; context:{product:product}"
+    ></ng-container>
+  </ng-template>
+</p-table>
